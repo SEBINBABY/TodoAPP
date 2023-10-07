@@ -1,0 +1,15 @@
+{% extends 'navbar_.html' %}
+{% block content %}
+<div class="col-lg-3 bg-primary text-dark mx-auto mt-5 p-0">
+    <div class="alert alert-info">
+        <h2>Logout</h2>
+    </div>
+    <div class="p-4">
+       <form action="/logout/" method="POST">
+        {% csrf_token %}
+        {{forms.as_p}}
+        <input class= "btn btn-info" type="submit" value="Login">
+       </form>
+    </div>
+</div>
+{% endblock %}

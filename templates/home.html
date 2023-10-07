@@ -1,0 +1,64 @@
+{% extends 'navbar_.html' %}
+{% block content %}
+<div class="container pt-4">
+    <div class="row mt-4 p-0">
+        <div class="col-lg-4 bg-primary text-dark mx-auto p-0">
+            <div class="alert alert-info text-center">
+                <p class="display-6">ADD NEW TODO</p>
+            </div>
+            <div class="p-4">
+                <form action="/add_todo/" method="POST">
+                {% csrf_token %}
+                {{forms.as_p}}
+                <input class= "btn btn-info" type="submit" value="ADD TASK">
+                </form>
+            </div>
+        </div>
+        <div class="col">
+        {% if todos|length == 0 %}
+           <div class="p-4 border">
+               <br>
+               <br>
+                <div class = "alert alert-info text-center">
+                    <p class="display-6">NO TODOs</p>
+                </div>
+               <br>
+               <br>
+           </div>
+        {% else %}
+                <table class="table table-primary table-hover table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>SL NO:</th>
+                        <th>TITLE</th>
+                        <th>PRIORITY</th>
+                        <th>STATUS</th>
+                        <th>UPDATE</th>
+                        <th>DELETE</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for todo in todos %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{todo.title}}</td>
+                        <td>{{todo.priority}}</td>
+                        <td>{{todo.status}}</td>
+                        {% if todo.status == 'COMPLETED' %}
+                        <td><a href="update_todo/{{todo.id}}/PENDING" style="font-size:26px" title="MARK PENDING">✍
+                        </a></td>
+                        {% else %}
+                        <td><a href="update_todo/{{todo.id}}/COMPLETED" style="font-size:26px" title="MARK COMPLETED">✍
+                        </a></td>
+                        {% endif %}
+                        <td><a href="delete_todo/{{todo.id}}" title="DELETE TASK" style="font-size:26px">🗑</a></td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+        {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
